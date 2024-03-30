@@ -37,5 +37,5 @@ COPY . .
 # Expose the port that the application listens on.
 EXPOSE 3000
 
-# Run the application.
+# Run the application with debug; also add - 9229:9229 in compose.yaml;
 CMD node --inspect=0.0.0.0:9229 src/index.js
