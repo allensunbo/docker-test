@@ -5,7 +5,14 @@ metadata:
 data:
   myvalue: {{ .Values.image.repository }}
   config1.toml: |
-    - {{  index (regexSplit  "[\r\n]+" (.Files.Get "config1.toml") -1 )  0 }}
-    - {{  index (regexSplit  "[\r\n]+" (.Files.Get "config1.toml") -1 )  1 }}
+    {{- $arr := (regexSplit  "[\r\n]+" (.Files.Get "config1.toml") -1 )}}
+    - {{  index $arr  0 }}
+    - {{  index $arr  1 }}
+    {{- range $arr}}
+    {{- range regexSplit "=" . -1 }}
+    {{- end }}
+    {{- $kv := regexSplit "=" . -1 }}
+    - @@{{ index $kv 0  | trim}}={{index $kv 1  | trim}}
+    {{- end}}
     
     
