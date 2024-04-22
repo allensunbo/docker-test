@@ -4,15 +4,18 @@ metadata:
   name: {{ .Release.Name }}-configmap
 data:
   myvalue: {{ .Values.image.repository }}
-  config1.toml: |
+  config1.toml: |-
     {{- $arr := (regexSplit  "[\r\n]+" (.Files.Get "config1.toml") -1 )}}
     - {{  index $arr  0 }}
     - {{  index $arr  1 }}
-    {{- range $arr}}
-    {{- range regexSplit "=" . -1 }}
+    ###############################
+    {{- range $outer := $arr }}
+    {{- $inner := (regexSplit "=" $outer -1) }}
+    {{- $key := index $inner 0 | trim }}
+    {{- $value := index $inner 1 | trim }}
+    - @@{{ $key }}={{ $value }}
     {{- end }}
-    {{- $kv := regexSplit "=" . -1 }}
-    - @@{{ index $kv 0  | trim}}={{index $kv 1  | trim}}
-    {{- end}}
-    
-    
+    ###############################
+  template: {{ .Template.Name }}
+  templateBasePath: {{ .Template.BasePath }}
+  KubeVersion : {{ .Capabilities.KubeVersion   }} 
