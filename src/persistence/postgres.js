@@ -11,9 +11,12 @@ const {
     POSTGRES_PASSWORD_FILE: PASSWORD_FILE,
     POSTGRES_DB: DB,
     POSTGRES_DB_FILE: DB_FILE,
+    NODE_ENV
 } = process.env;
 
 let client;
+
+console.log('NODE_ENV=', NODE_ENV);
 
 async function init() {
     const host = HOST_FILE ? fs.readFileSync(HOST_FILE) : HOST;

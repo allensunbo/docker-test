@@ -24,7 +24,7 @@ test('it can store and retrieve items', async () => {
     await db.storeItem(ITEM);
 
     const items = await db.getItems();
-    expect(items.length).toBe(1);
+    expect(items.length).toBe(11);
     expect(items[0]).toEqual(ITEM);
 });
 
