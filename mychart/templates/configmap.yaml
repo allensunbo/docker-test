@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  myvalue: {{ .Values.image.repository }}
+  config1.toml: |
+    - {{  index (regexSplit  "[\r\n]+" (.Files.Get "config1.toml") -1 )  0 }}
+    - {{  index (regexSplit  "[\r\n]+" (.Files.Get "config1.toml") -1 )  1 }}
+    
+    
